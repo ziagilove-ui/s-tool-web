@@ -101,9 +101,10 @@
 
   <script>
     // ==== 이 부분은 나중에 실제 장치 UUID로 바꿔야 함 ====
-    const SERVICE_UUID   = '0000ffff-0000-1000-8000-00805f9b34fb'; // 예시
-    const TX_CHAR_UUID   = '0000fff1-0000-1000-8000-00805f9b34fb'; // 웹 → 장치 (write)
-    const RX_CHAR_UUID   = '0000fff2-0000-1000-8000-00805f9b34fb'; // 장치 → 웹 (notify)
+    const SERVICE_UUID = "0000aaa0-0000-1000-8000-aabbccddeeff";
+    const RX_CHAR_UUID = "0000aaa1-0000-1000-8000-aabbccddeeff"; // notify
+    const TX_CHAR_UUID = "0000aaa2-0000-1000-8000-aabbccddeeff"; // write
+
     // ======================================================
 
     let device, server, service, txChar, rxChar;
@@ -138,12 +139,8 @@
         setStatus("장치 검색 중…");
 
         device = await navigator.bluetooth.requestDevice({
-            filters: [
-                { namePrefix: 'Yoon_BLE_Tool' }   // 또는 정확히 name: 'Yoon_BLE_Tool(66EE)'
-            ],
-            optionalServices: [SERVICE_UUID]    // 나중에 실제 서비스 UUID로 변경
-            });
-        console.log('선택된 장치:', device.name, device.id);  // 디버그용
+          acceptAllDevices: true,
+          optionalServices: [SERVICE_UUID]
 
         setStatus("연결 중…");
         device.addEventListener('gattserverdisconnected', () => {
